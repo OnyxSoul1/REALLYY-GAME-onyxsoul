@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Retro Racing MasterPort - OnyxSoul Engine</title>
+    <style>
+        :root {
+            --bg-color: #050508;
+            --panel-color: #0f0f14;
+            --accent-color: #ff3300; /* Racing Red Accent */
+            --txt-color: #ffffff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
+        body, html {
+            background-color: var(--bg-color);
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            color: var(--txt-color);
+            overflow: hidden;
+            width: 100%; height: 100%;
+        }
+
+        /* 1. GN-MATH STYLE SMOOTH LOADER OVERLAY */
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #030304; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        .ring {
+            width: 60px; height: 60px; border: 5px solid #222;
+            border-top: 5px solid var(--accent-color); border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #loader p { margin-top: 20px; font-weight: bold; letter-spacing: 4px; color: var(--accent-color); font-size: 1rem; }
+
+        /* 2. TRUE FULL SCREEN GAMEVIEW PORT WINDOW */
+        #game-viewport {
+            position: relative; width: 100vw; height: 100vh;
+            background: #010102; overflow: hidden;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        /* 3. FLOATING LOGO BRANDING LINK TO YOUR WEBSITE (BOTTOM RIGHT) */
+        #onyxsoul-branding-link {
+            position: absolute; bottom: 25px; right: 25px;
+            z-index: 500; width: 70px; height: 70px;
+            background: linear-gradient(135deg, var(--accent-color), #880044);
+            border: 2px solid rgba(255,255,255,0.3); border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 4px 15px rgba(255, 51, 0, 0.5);
+            cursor: pointer; text-decoration: none;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #onyxsoul-branding-link:hover { transform: scale(1.1) rotate(15deg); box-shadow: 0 6px 20px rgba(255, 51, 0, 0.7); }
+        #onyxsoul-branding-link span { color: #fff; font-weight: 900; font-size: 0.8rem; letter-spacing: 0.5px; text-align: center; line-height: 1.1; }
+
+        /* 4. VISUAL KEYBOARD CONTROLS DASHBOARD OVERLAY */
+        #controls-dashboard {
+            position: absolute; bottom: 25px; left: 25px; z-index: 100;
+            background: rgba(15, 15, 20, 0.8); border-left: 4px solid var(--accent-color);
+            padding: 10px 15px; border-radius: 4px; font-size: 0.8rem;
+        }
+        #controls-dashboard p { margin-bottom: 4px; }
+        #controls-dashboard span { background: #222; padding: 1px 4px; border-radius: 3px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Your Custom Splash Loader Screen -->
+    <div id="loader"><div class="ring"></div><p>PORTED BY ONYXSOUL...</p></div>
+
+    <!-- 2. Immersive Main Game Viewport Frame -->
+    <div id="game-viewport">
+        <div id="controls-dashboard">
+            <p>Accelerate / Drive: <span>▲</span> or <span>W</span></p>
+            <p>Steer Left/Right: <span>◀</span> <span>▶</span> or <span>A</span> <span>D</span></p>
+            <p>Brake / Reverse: <span>▼</span> or <span>S</span></p>
+        </div>
+
+        <!-- 3. YOUR WEBSITE REDIRECT LINK WIDGET -->
+        <!-- 🚨 Put your actual website URL link right inside the quotes below! -->
+        <a href="https://yourwebsite.com" target="_blank" id="onyxsoul-branding-link"><span>ONYX<br>SOUL</span></a>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            const splash = document.getElementById('loader');
+            setTimeout(() => { splash.style.opacity = '0'; setTimeout(() => splash.style.display = 'none', 500); }, 1200);
+        });
+
+        // 🚨 FIXED LINK STREAMING PINNED TO YOUR REAL GITHUB ACCOUNT PATHWAYS
+        const GITHUB_USER = "OnyxSoul1"; 
+        const REPO_NAME = "REALLYY-GAME-onyxsoul";
+        const URL_BASE = `https://jsdelivr.net{GITHUB_USER}/${REPO_NAME}@main`;
+
+        // Seamlessly loads the Phaser library and your custom game scripts via jsDelivr CDN
+        const scriptLoaders = [
+            `${URL_BASE}/libs/phaser.min.js`,
+            `${URL_BASE}/part2/settings.js`,
+            `${URL_BASE}/part2/camera.js`,
+            `${URL_BASE}/part2/circuit.js`,
+            `${URL_BASE}/part2/player.js`,
+            `${URL_BASE}/part2/main.js`
+        ];
+
+        function loadScriptsSequentially(index) {
+            if (index >= scriptLoaders.length) return;
+            const el = document.createElement('script');
+            el.src = scriptLoaders[index];
+            el.onload = () => { loadScriptsSequentially(index + 1); };
+            document.body.appendChild(el);
+        }
+        
+        loadScriptsSequentially(0);
+
+        // OFFLINE AUTOMATED CACHE SERVICE WORKER ENGINE REGISTER
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js');
+            });
+        }
+    </script>
+</body>
+</html>
