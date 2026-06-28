@@ -1,2 +1,2 @@
-# sf2-onyxsoul
-PORT SF2
+# REALLY GAME-onyxsoul
+PORT REALLY GAME
